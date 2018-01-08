@@ -2,7 +2,6 @@ var mongoose=require('mongoose');
 var bodyParser=require('body-parser');
 
 
-
 //connect to the db
 mongoose.connect('mongodb://ayush:root@ds129776.mlab.com:29776/todo');
 
@@ -41,12 +40,17 @@ var Todo= mongoose.model('Todo',todoSchema);
 
 //var data=[{item:'get Milk'},{item:'walk dog'},{item:'get protein'},{item:'Study Time'}]
 
-
+var jsonParse=bodyParser.json();
 var urlencodedParser= bodyParser.urlencoded({extended:false})
-module.exports= function (app){
+module.exports= function (app,passport){
+  console.log('==============controller===============');
 
 //sample
   app.get('/',function(req,res){
+    console.log("==========================start 1========================req")
+    console.log(req.session)
+    console.log(req.user)
+    console.log("==========================end 1==========================req");
     res.send("hi");
   })
 
@@ -74,4 +78,29 @@ module.exports= function (app){
     })
   })
 
+
+//   Passport exposes a login() function on req (also aliased as logIn()) that can be used to establish a login session.
+
+// req.login(user, function(err) {
+//   if (err) { return next(err); }
+//   return res.redirect('/users/' + req.user.username);
+// });
+// When the login operation completes, user will be assigned to req.user.
+
+// Note: passport.authenticate() middleware invokes req.login() automatically. This function is primarily used when users sign up, during which req.login() can be invoked to automatically log in the newly registered user.
+  app.post('/login',urlencodedParser,passport.authenticate('local', { failureRedirect: '/login' }),
+  function(req, res) {
+    console.log("==========================start ========================req")
+    console.log(req.session)
+    console.log(req.user)
+    console.log("==========================end ==========================req");
+    res.redirect('/');
+  });
+
+  //Passport exposes a logout() function on req (also aliased as logOut()) that can be called from any route handler which needs to terminate a login session. Invoking logout() will remove the req.user property and clear the login session (if any).
+
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+});
 };

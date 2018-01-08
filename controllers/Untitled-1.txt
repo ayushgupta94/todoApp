@@ -1,0 +1,27 @@
+undefined
+undefined
+
+
+{ passport: { user: 'ayush' } }
+ayush
+
+
+
+Session {
+  cookie:
+   { path: '/',
+     _expires: null,
+     originalMaxAge: null,
+     httpOnly: true } }
+undefined
+
+
+
+Session {
+  cookie:
+   { path: '/',
+     _expires: null,
+     originalMaxAge: null,
+     httpOnly: true },
+  passport: { user: 'ayush' } }
+ayush
